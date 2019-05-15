@@ -5,8 +5,12 @@ import operator as op
 from functools import reduce
 
 
-def chanceOfN6(n,amnt):
-    output = 5**(amnt-n) * ncr(amnt,amnt-n)/(6**amnt)
+def chanceOfN6(n,amnt,t):
+    singleFailOutcomes = (t-1)**(amnt-n)
+    singlePassOutcomes = (7-t)**(n)
+    failCombos = ncr(amnt,amnt-n)
+    passCombos = ncr(amnt,n)
+    output = ((singleFailOutcomes * failCombos)+(singlePassOutcomes*passCombos))/(6**amnt)
     return output
 
 def ncr(n, r):
@@ -17,6 +21,7 @@ def ncr(n, r):
 
 amnt = int(sys.argv[1])
 dif = int(sys.argv[2])
+thresh = int(sys.argv[3])
 
-output = sum([chanceOfN6(i,amnt) for i in range (dif,amnt+1)])
+output = sum([chanceOfN6(i,amnt,thresh) for i in range (dif,amnt+1)])
 print("answer",output)
